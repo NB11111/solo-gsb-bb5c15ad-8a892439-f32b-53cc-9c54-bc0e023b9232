@@ -1,0 +1,17 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      APP_DATABASE_URL: sqlite:////data/cpc.db
+      APP_PENALTY: "12.0"        # PELT 惩罚项：越大分段越保守
+      APP_MIN_SIZE: "3"          # 每段最少读数条数
+      APP_MIN_CONFIDENT_LEN: "6" # 高置信所需的最小段长
+      APP_CONFIDENCE_T: "2.0"    # 相邻段跳变 t 统计量阈值
+    volumes:
+      - cpc-data:/data
+    restart: unless-stopped
+
+volumes:
+  cpc-data:
